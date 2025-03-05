@@ -19,7 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        name: [windows-msvc]  # Tylko Windows
+        name: [windows-msvc]  # Tylko Windows  ,,j,.
         buildtype: [Release]  # Tylko Release
         luajit: [on]  # Tylko z LuaJIT
         include:
