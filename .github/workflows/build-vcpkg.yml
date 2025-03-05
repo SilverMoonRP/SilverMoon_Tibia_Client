@@ -44,26 +44,21 @@ jobs:
       - name: Get latest CMake
         uses: lukka/get-cmake@latest
 
-      - name: Set Environment vars
+      - name: Install vcpkg
         run: |
-          echo "CXX=${{ matrix.cxx }}" >> $GITHUB_ENV
-          echo "CC=${{ matrix.cc }}" >> $GITHUB_ENV
+          git clone https://github.com/microsoft/vcpkg.git
+          ./vcpkg/bootstrap-vcpkg.sh
 
-      - name: Run vcpkg
-        uses: lukka/run-vcpkg@v7
-        with:
-          vcpkgArguments: ${{ matrix.packages }}
-          vcpkgDirectory: ${{ runner.workspace }}/vcpkg/
-          vcpkgTriplet: ${{ matrix.triplet }}
-          vcpkgGitCommitId: 6f7ffeb18f99796233b958aaaf14ec7bd4fb64b2
+      - name: Install dependencies
+        run: |
+          ./vcpkg/vcpkg install ${{ matrix.packages }}
 
       - name: Build with CMake
-        uses: lukka/run-cmake@v3  # Użyj v3 zamiast v4
-        with:
-          buildDirectory: ${{ runner.workspace }}/build
-          cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
-          cmakeAppendedArgs: '-G Ninja -DCMAKE_BUILD_TYPE="${{ matrix.buildtype }}" -DLUAJIT="${{ matrix.luajit }}"'
-          useVcpkgToolchainFile: true
+        run: |
+          mkdir -p ${{ runner.workspace }}/build
+          cd ${{ runner.workspace }}/build
+          cmake -G Ninja -DCMAKE_BUILD_TYPE="${{ matrix.buildtype }}" -DLUAJIT="${{ matrix.luajit }}" ..
+          cmake --build . --config ${{ matrix.buildtype }}
 
       - name: Upload artifact binary (exe)
         uses: actions/upload-artifact@v4
