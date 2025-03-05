@@ -60,8 +60,11 @@ jobs:
 
       - name: Create vc14 directory
         run: |
-          mkdir -p vc14
-          cp CMakeLists.txt vc14/  # Skopiuj plik CMakeLists.txt do vc14
+          New-Item -ItemType Directory -Force -Path vc14
+
+      - name: Copy CMakeLists.txt to vc14
+        run: |
+          Copy-Item -Path CMakeLists.txt -Destination vc14/ -Force
 
       - name: Build with CMake
         run: |
@@ -75,13 +78,13 @@ jobs:
           ls -R ${{ runner.workspace }}/build
 
       - name: Upload artifact binary (exe)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: otclient-${{ matrix.name }}-${{ matrix.buildtype }}-luajit=${{ matrix.luajit }}-${{ github.sha }}
           path: ${{ runner.workspace }}/build/Release/otclient.exe
 
       - name: Upload artifact binary (dlls)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: otclient-${{ matrix.name }}-${{ matrix.buildtype }}-luajit=${{ matrix.luajit }}-${{ github.sha }}
           path: ${{ runner.workspace }}/build/Release/*.dll
