@@ -62,9 +62,18 @@ jobs:
         run: |
           New-Item -ItemType Directory -Force -Path vc14
 
-      - name: Copy CMakeLists.txt to vc14
+      - name: Create CMakeLists.txt
         run: |
-          Copy-Item -Path CMakeLists.txt -Destination vc14/ -Force
+          echo "cmake_minimum_required(VERSION 3.10)" > vc14/CMakeLists.txt
+          echo "project(otclient)" >> vc14/CMakeLists.txt
+          echo "set(CMAKE_CXX_STANDARD 11)" >> vc14/CMakeLists.txt
+          echo "set(CMAKE_CXX_STANDARD_REQUIRED ON)" >> vc14/CMakeLists.txt
+          echo "set(CMAKE_CXX_EXTENSIONS OFF)" >> vc14/CMakeLists.txt
+          echo "add_executable(otclient main.cpp)" >> vc14/CMakeLists.txt
+
+      - name: List vc14 directory
+        run: |
+          ls -l vc14
 
       - name: Build with CMake
         run: |
