@@ -56,23 +56,4 @@ jobs:
 
       - name: Install dependencies
         run: |
-          vcpkg install boost-iostreams boost-asio boost-system boost-variant boost-lockfree boost-filesystem boost-uuid glew luajit libogg libvorbis openal-soft opengl openssl physfs zlib
-
-      - name: Build with CMake
-        run: |
-          mkdir -p ${{ runner.workspace }}/build
-          cd ${{ runner.workspace }}/build
-          cmake -G Ninja -DCMAKE_BUILD_TYPE="${{ matrix.buildtype }}" -DLUAJIT="${{ matrix.luajit }}" ../vc14
-          cmake --build . --config ${{ matrix.buildtype }}
-
-      - name: Upload artifact binary (exe)
-        uses: actions/upload-artifact@v4
-        with:
-          name: otclient-${{ matrix.name }}-${{ matrix.buildtype }}-luajit=${{ matrix.luajit }}-${{ github.sha }}
-          path: ${{ runner.workspace }}/build/otclient.exe
-
-      - name: Upload artifact binary (dlls)
-        uses: actions/upload-artifact@v4
-        with:
-          name: otclient-${{ matrix.name }}-${{ matrix.buildtype }}-luajit=${{ matrix.luajit }}-${{ github.sha }}
-          path: ${{ runner.workspace }}/build/*.dll
+          vcpkg install boost-iostreams
