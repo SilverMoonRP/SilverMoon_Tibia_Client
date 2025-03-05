@@ -62,7 +62,7 @@ function init()
     modules.client_topmenu.toggle()
   end
 
-  setupViewMode(0)
+  setupViewMode(1)
 
   bindKeys()
 
@@ -99,7 +99,6 @@ function bindKeys()
   g_keyboard.bindKeyPress('Escape', function() g_game.cancelAttackAndFollow() end, gameRootPanel)
   g_keyboard.bindKeyPress('Ctrl+=', function() gameMapPanel:zoomIn() end, gameRootPanel)
   g_keyboard.bindKeyPress('Ctrl+-', function() gameMapPanel:zoomOut() end, gameRootPanel)
-  g_keyboard.bindKeyDown('Ctrl+Q', function() tryLogout(false) end, gameRootPanel)
   g_keyboard.bindKeyDown('Ctrl+L', function() tryLogout(false) end, gameRootPanel)
   g_keyboard.bindKeyDown('Ctrl+W', function() g_map.cleanTexts() modules.game_textmessage.clearMessages() end, gameRootPanel)
   g_keyboard.bindKeyDown('Ctrl+.', nextViewMode, gameRootPanel)
@@ -151,7 +150,7 @@ end
 
 function onGameStart()
   show()
-
+  g_game.enableFeature(GameMagicEffectU16)
   -- open tibia has delay in auto walking
   if not g_game.isOfficialTibia() then
     g_game.enableFeature(GameForceFirstAutoWalkStep)
@@ -161,7 +160,7 @@ function onGameStart()
 end
 
 function onGameEnd()
-  setupViewMode(0)
+  setupViewMode(2)
   hide()
 end
 
@@ -171,7 +170,7 @@ function show()
   gameRootPanel:show()
   gameRootPanel:focus()
   gameMapPanel:followCreature(g_game.getLocalPlayer())
-  setupViewMode(0)
+  setupViewMode(2)
   updateStretchShrink()
   logoutButton:setTooltip(tr('Logout'))
 
@@ -883,7 +882,7 @@ function setupViewMode(mode)
     gameLeftPanel:setVisible(true)
     gameRightPanel:setOn(true)
     gameMapPanel:setOn(true)
-    gameBottomPanel:setImageColor('#ffffff88')
+    gameBottomPanel:setImageColor('#ffffff32')
     modules.client_topmenu.getTopMenu():setImageColor('#ffffff66')
     if not limit then
       g_game.changeMapAwareRange(24, 20)

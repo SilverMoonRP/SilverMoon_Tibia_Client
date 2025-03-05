@@ -1,0 +1,11 @@
+Module
+  name: game_pokemonbar
+  description: pokemons bar
+  author: pota
+  website: https://silvermoonrp.uk/index.php
+  autoload: true
+  autoload-priority: 1000
+  scripts: [ pokemonbar ]
+  sandboxed: true
+  @onLoad: init()
+  @onUnload: terminate()

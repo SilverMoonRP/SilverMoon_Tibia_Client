@@ -72,76 +72,95 @@ AmmoSlot < InventoryItem
   $on:
     image-source: /images/game/slots/ammo-blessed
 
-PurseButton < Button
-  id: purseButton
-  size: 26 26
-  !tooltip: tr('Open purse')
-  icon-source: /images/game/slots/purse
-  icon-size: 24 24
-  icon-offset: 1 1
+InfoSlot < InventoryItem
+  id: slot12
+  image-source: /images/game/slots/right-hand
+  &position: {x=65535, y=12, z=0}
+  $on:
+    image-source: /images/game/slots/right-hand-blessed
+
+OrderSlot < InventoryItem
+  id: slot11
+  image-source: /images/game/slots/right-hand
+  &position: {x=65535, y=11, z=0}
+  $on:
+    image-source: /images/game/slots/right-hand-blessed
 
 MiniWindow
   id: inventoryWindow
   !text: tr('Inventory')
   icon: /images/topbuttons/inventory
-  height: 175
+  height: 140
   @onClose: modules.game_inventory.onMiniWindowClose()
   &save: true
 
   MiniWindowContents
-    HeadSlot
+    OrderSlot
       anchors.top: parent.top
       anchors.horizontalCenter: parent.horizontalCenter
-      margin-top: 3
-
-    BodySlot
-      anchors.top: prev.bottom
-      anchors.horizontalCenter: prev.horizontalCenter
       margin-top: 3
 
     LegSlot
       anchors.top: prev.bottom
       anchors.horizontalCenter: prev.horizontalCenter
       margin-top: 3
+      visible: true
 
-    FeetSlot
+    BackSlot
       anchors.top: prev.bottom
       anchors.horizontalCenter: prev.horizontalCenter
       margin-top: 3
 
-    NeckSlot
-      anchors.top: slot1.top
+    HeadSlot
+      anchors.top: prev.bottom
+      anchors.horizontalCenter: prev.horizontalCenter
+      margin-top: 3
+      visible: false
+
+    BodySlot
+      anchors.top: prev.bottom
+      anchors.horizontalCenter: prev.horizontalCenter
+      margin-top: 3
+      visible: false
+
+    InfoSlot
+      anchors.top: parent.top
       anchors.right: slot1.left
-      margin-top: 10
-      margin-right: 5
-
-    LeftSlot
-      anchors.top: prev.bottom
-      anchors.horizontalCenter: prev.horizontalCenter
       margin-top: 3
+      margin-right: 5
 
     FingerSlot
       anchors.top: prev.bottom
       anchors.horizontalCenter: prev.horizontalCenter
       margin-top: 3
-
-    BackSlot
-      anchors.top: slot1.top
-      anchors.left: slot1.right
-      margin-top: 10
-      margin-left: 5
-
-    RightSlot
-      anchors.top: prev.bottom
-      anchors.horizontalCenter: prev.horizontalCenter
-      margin-top: 3
+      visible: true
 
     AmmoSlot
       anchors.top: prev.bottom
       anchors.horizontalCenter: prev.horizontalCenter
       margin-top: 3
+      visible: false
 
-    PurseButton
-      margin-top: 3
+    LeftSlot
       anchors.top: prev.bottom
       anchors.horizontalCenter: prev.horizontalCenter
+      margin-top: 3
+      visible: false
+
+    NeckSlot
+      anchors.top: parent.top
+      anchors.left: slot1.right
+      margin-top: 3
+      margin-left: 5
+
+    FeetSlot
+      anchors.top: prev.bottom
+      anchors.horizontalCenter: prev.horizontalCenter
+      margin-top: 3
+      visible: true
+
+    RightSlot
+      anchors.top: prev.bottom
+      anchors.horizontalCenter: prev.horizontalCenter
+      margin-top: 3
+      visible: false

@@ -2,7 +2,7 @@ Module
   name: game_combatcontrols
   description: Combat controls window
   author: edubart, BeniS
-  website: https://github.com/edubart/otclient
+  website: www.otclient.info
   sandboxed: true
   scripts: [ combatcontrols ]
   @onLoad: init()

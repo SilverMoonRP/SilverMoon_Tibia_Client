@@ -20,27 +20,15 @@ function UIItem:onDragLeave(droppedWidget, mousePos)
 end
 
 function UIItem:onDrop(widget, mousePos)
-  self:setBorderWidth(0)
-
-  if not self:canAcceptDrop(widget, mousePos) then
-    return false
-  end
+  if not self:canAcceptDrop(widget, mousePos) then return false end
 
   local item = widget.currentDragThing
-  if not item:isItem() then
-    return false
-  end
+  if not item:isItem() then return false end
+
+  local toPos = self.position
 
   local itemPos = item:getPosition()
-  local itemTile = item:getTile()
-  if itemPos.x ~= 65535 and not itemTile then
-    return false
-  end
-  
-  local toPos = self.position
-  if itemPos.x == toPos.x and itemPos.y == toPos.y and itemPos.z == toPos.z then
-    return false
-  end
+  if itemPos.x == toPos.x and itemPos.y == toPos.y and itemPos.z == toPos.z then return false end
 
   if item:getCount() > 1 then
     modules.game_interface.moveStackableItem(item, toPos)
@@ -48,6 +36,7 @@ function UIItem:onDrop(widget, mousePos)
     g_game.move(item, toPos, 1)
   end
 
+  self:setBorderWidth(0)
   return true
 end
 

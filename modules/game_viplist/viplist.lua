@@ -148,9 +148,9 @@ function createEditWindow(widget)
       g_game.editVip(id, description, iconId, notify)
     else
       if notify ~= false or #description > 0 or iconId > 0 then
-        vipInfo[name] = {description = description, iconId = iconId, notifyLogin = notify}
+        vipInfo[id] = {description = description, iconId = iconId, notifyLogin = notify}
       else
-        vipInfo[name] = nil
+        vipInfo[id] = nil
       end
     end
 
@@ -203,11 +203,10 @@ function removeVip(widgetOrName)
 
   if widget then
     local id = widget:getId():sub(4)
-    local name = widget:getText()
     g_game.removeVip(id)
     vipList:removeChild(widget)
-    if vipInfo[name] and g_game.getFeature(GameAdditionalVipInfo) then
-      vipInfo[name] = nil
+    if vipInfo[id] and g_game.getFeature(GameAdditionalVipInfo) then
+      vipInfo[id] = nil
     end
   end
 end
@@ -253,7 +252,7 @@ function onAddVip(id, name, state, description, iconId, notify)
   label:setText(name)
 
   if not g_game.getFeature(GameAdditionalVipInfo) then
-    local tmpVipInfo = vipInfo[name]
+    local tmpVipInfo = vipInfo[tostring(id)]
     label.iconId = 0
     label.notifyLogin = false
     if tmpVipInfo then
@@ -336,7 +335,7 @@ function onVipStateChange(id, state)
   onAddVip(id, name, state, description, iconId, notify)
 
   if notify and state ~= VipState.Pending then
-    modules.game_textmessage.displayFailureMessage(state == VipState.Online and tr('%s has logged in.', name) or tr('%s has logged out.', name))
+    modules.game_textmessage.displayFailureMessage(tr('%s has logged %s.', name, (state == VipState.Online and 'in' or 'out')))
   end
 end
 

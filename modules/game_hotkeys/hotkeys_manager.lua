@@ -28,7 +28,21 @@ clearObjectButton = nil
 useOnSelf = nil
 useOnTarget = nil
 useWith = nil
-defaultComboKeys = nil
+defaultComboKeys = 
+	{
+		["F1"] = {autoSend = true, itemId = nil, subType = nil, useType = nil, value = "m1"},
+		["F2"] = {autoSend = true, itemId = nil, subType = nil, useType = nil, value = "m2"},
+		["F3"] = {autoSend = true, itemId = nil, subType = nil, useType = nil, value = "m3"},
+		["F4"] = {autoSend = true, itemId = nil, subType = nil, useType = nil, value = "m4"},
+		["F5"] = {autoSend = true, itemId = nil, subType = nil, useType = nil, value = "m5"},
+		["F6"] = {autoSend = true, itemId = nil, subType = nil, useType = nil, value = "m6"},
+		["F7"] = {autoSend = true, itemId = nil, subType = nil, useType = nil, value = "m7"},
+		["F8"] = {autoSend = true, itemId = nil, subType = nil, useType = nil, value = "m8"},
+		["F9"] = {autoSend = true, itemId = nil, subType = nil, useType = nil, value = "m9"},
+		["F10"] = {autoSend = true, itemId = nil, subType = nil, useType = nil, value = "m10"},
+		["F11"] = {autoSend = true, itemId = nil, subType = nil, useType = nil, value = "m11"},
+		["F12"] = {autoSend = true, itemId = nil, subType = nil, useType = nil, value = "m12"}
+	}
 perServer = true
 perCharacter = true
 mouseGrabberWidget = nil

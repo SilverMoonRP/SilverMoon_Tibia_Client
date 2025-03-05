@@ -48,12 +48,12 @@ CapLabel < GameLabel
   anchors.bottom: parent.bottom
   anchors.left: parent.left
   anchors.right: parent.horizontalCenter
-  margin-top: 5
+  margin-top: 1
   margin-left: 3
   on: true
 
   $!on:
-    visible: false
+    visible: true
     margin-top: 0
     height: 0
 
@@ -67,13 +67,12 @@ MiniWindow
   icon: /images/topbuttons/healthinfo
   id: healthInfoWindow
   !text: tr('Health Info')
-  height: 123
+  height: 100
   @onClose: modules.game_healthinfo.onMiniWindowClose()
   &save: true
 
   MiniWindowContents
     HealthBar
-    ManaBar
     ExperienceBar
     Panel
       id: conditionPanel
@@ -88,5 +87,4 @@ MiniWindow
       border-width: 1
       border-color: #00000077
       background-color: #ffffff11
-    SoulLabel
     CapLabel

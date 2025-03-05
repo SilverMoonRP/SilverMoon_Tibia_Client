@@ -52,13 +52,6 @@ SayModes = {
   [3] = { speakTypeDesc = 'yell', icon = '/images/game/console/yell' }
 }
 
-ChannelEventFormats = {
-  [ChannelEvent.Join] = '%s joined the channel.',
-  [ChannelEvent.Leave] = '%s left the channel.',
-  [ChannelEvent.Invite] = '%s has been invited to the channel.',
-  [ChannelEvent.Exclude] = '%s has been removed from the channel.',
-}
-
 MAX_HISTORY = 500
 MAX_LINES = 100
 HELP_CHANNEL = 9
@@ -105,8 +98,7 @@ function init()
     onRuleViolationCancel = onRuleViolationCancel,
     onRuleViolationLock = onRuleViolationLock,
     onGameStart = online,
-    onGameEnd = offline,
-    onChannelEvent = onChannelEvent,
+    onGameEnd = offline
   })
 
   consolePanel = g_ui.loadUI('console', modules.game_interface.getBottomPanel())
@@ -248,8 +240,7 @@ function terminate()
     onRuleViolationCancel = onRuleViolationCancel,
     onRuleViolationLock = onRuleViolationLock,
     onGameStart = online,
-    onGameEnd = offline,
-    onChannelEvent = onChannelEvent,
+    onGameEnd = offline
   })
 
   if g_game.isOnline() then clear() end
@@ -553,8 +544,6 @@ function addTabText(text, speaktype, tab, creatureName)
   label:setColor(speaktype.color)
   consoleTabBar:blinkTab(tab)
 
-  label.highlightInfo = {}
-
   -- Overlay for consoleBuffer which shows highlighted words only
 
   if speaktype.npcChat and (g_game.getCharacterName() ~= creatureName or g_game.getCharacterName() == 'Account Manager') then
@@ -584,10 +573,6 @@ function addTabText(text, speaktype, tab, creatureName)
         local dataBlock = { _start = highlightData[(i-1)*3+1], _end = highlightData[(i-1)*3+2], words = highlightData[(i-1)*3+3] }
         local lastBlockEnd = (highlightData[(i-2)*3+2] or 1)
 
-        for i = dataBlock._start, dataBlock._end do
-          label.highlightInfo[i] = dataBlock.words
-        end
-
         for letter = lastBlockEnd, dataBlock._start-1 do
           local tmpChar = string.byte(drawText:sub(letter, letter))
           local fillChar = (tmpChar == 10 or tmpChar == 32) and string.char(tmpChar) or string.char(127)
@@ -615,14 +600,7 @@ function addTabText(text, speaktype, tab, creatureName)
     processMessageMenu(mousePos, mouseButton, nil, nil, nil, tab)
   end
   label.onMouseRelease = function(self, mousePos, mouseButton)
-    if mouseButton == MouseLeftButton then
-      local position = label:getTextPos(mousePos)
-      if position and label.highlightInfo[position] then
-        sendMessage(label.highlightInfo[position], npcTab)
-      end
-    elseif mouseButton == MouseRightButton then
-      processMessageMenu(mousePos, mouseButton, creatureName, text, self, tab)
-    end
+    processMessageMenu(mousePos, mouseButton, creatureName, text, self, tab)
   end
   label.onMousePress = function(self, mousePos, button)
     if button == MouseLeftButton then clearSelection(consoleBuffer) end
@@ -706,7 +684,7 @@ function addTabText(text, speaktype, tab, creatureName)
         child:setSelection(string.len(child:getText()), textPos)
       end
     end
-
+    
     return true
   end
 
@@ -879,14 +857,14 @@ function sendMessage(message, tab)
     message = chatCommandMessage
     channel = 0
   end
-
+  
   -- player red talk on channel
   chatCommandMessage = message:match("^%#[c|C] (.*)")
   if chatCommandMessage ~= nil then
     chatCommandSayMode = 'channelRed'
     message = chatCommandMessage
   end
-
+  
   -- player broadcast
   chatCommandMessage = message:match("^%#[b|B] (.*)")
   if chatCommandMessage ~= nil then
@@ -1000,7 +978,7 @@ function navigateMessageHistory(step)
 end
 
 function applyMessagePrefixies(name, level, message)
-  if name and #name > 0 then
+  if name then
     if modules.client_options.getOption('showLevelsInConsole') and level > 0 then
       message = name .. ' [' .. level .. ']: ' .. message
     else
@@ -1215,15 +1193,15 @@ function loadCommunicationSettings()
 
   local ignoreNode = g_settings.getNode('IgnorePlayers')
   if ignoreNode then
-    for _, player in pairs(ignoreNode) do
-      table.insert(communicationSettings.ignoredPlayers, player)
+    for i = 1, #ignoreNode do
+      table.insert(communicationSettings.ignoredPlayers, ignoreNode[i])
     end
   end
 
   local whitelistNode = g_settings.getNode('WhitelistedPlayers')
   if whitelistNode then
-    for _, player in pairs(whitelistNode) do
-      table.insert(communicationSettings.whitelistedPlayers, player)
+    for i = 1, #whitelistNode do
+      table.insert(communicationSettings.whitelistedPlayers, whitelistNode[i])
     end
   end
 
@@ -1458,20 +1436,4 @@ function offline()
     g_keyboard.unbindKeyDown('Ctrl+R')
   end
   clear()
-end
-
-function onChannelEvent(channelId, name, type)
-  local fmt = ChannelEventFormats[type]
-  if not fmt then
-    print(('Unknown channel event type (%d).'):format(type))
-    return
-  end
-
-  local channel = channels[channelId]
-  if channel then
-    local tab = getTab(channel)
-    if tab then
-      addTabText(fmt:format(name), SpeakTypesSettings.channelOrange, tab)
-    end
-  end
 end

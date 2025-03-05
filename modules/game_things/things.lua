@@ -48,4 +48,5 @@ function load()
     g_game.setProtocolVersion(0)
     connect(g_game, { onClientVersionChange = load })
   end
+  g_game.enableFeature(GameSpritesAlphaChannel)
 end

@@ -144,10 +144,7 @@ end
 
 function setLocale(name)
   local locale = installedLocales[name]
-  if locale == currentLocale then
-    g_settings.set('locale', name)
-    return
-  end
+  if locale == currentLocale then return end
   if not locale then
     pwarning("Locale " .. name .. ' does not exist.')
     return false

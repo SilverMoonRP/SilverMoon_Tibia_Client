@@ -110,7 +110,6 @@ function onContainerOpen(container, previousContainer)
   containerWindow:setText(name)
 
   containerItemWidget:setItem(container:getContainerItem())
-  containerItemWidget:setPhantom(true)
 
   containerPanel:destroyChildren()
   for slot=0,container:getCapacity()-1 do

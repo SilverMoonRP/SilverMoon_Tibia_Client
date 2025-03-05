@@ -244,32 +244,26 @@ function doCreatureFitFilters(creature)
 
   local localPlayer = g_game.getLocalPlayer()
   if pos.z ~= localPlayer:getPosition().z or not creature:canBeSeen() then return false end
-  return true
-end
 
-function doShowCreatureAtBattle(creature)
-  if doCreatureFitFilters(creature) then
-    local hidePlayers = hidePlayersButton:isChecked()
-    local hideNPCs = hideNPCsButton:isChecked()
-    local hideMonsters = hideMonstersButton:isChecked()
-    local hideSkulls = hideSkullsButton:isChecked()
-    local hideParty = hidePartyButton:isChecked()
+  local hidePlayers = hidePlayersButton:isChecked()
+  local hideNPCs = hideNPCsButton:isChecked()
+  local hideMonsters = hideMonstersButton:isChecked()
+  local hideSkulls = hideSkullsButton:isChecked()
+  local hideParty = hidePartyButton:isChecked()
 
-    if hidePlayers and creature:isPlayer() then
-      return false
-    elseif hideNPCs and creature:isNpc() then
-      return false
-    elseif hideMonsters and creature:isMonster() then
-      return false
-    elseif hideSkulls and creature:isPlayer() and creature:getSkull() == SkullNone then
-      return false
-    elseif hideParty and creature:getShield() > ShieldWhiteBlue then
-      return false
-    end
-
-    return true
+  if hidePlayers and creature:isPlayer() then
+    return false
+  elseif hideNPCs and creature:isNpc() then
+    return false
+  elseif hideMonsters and creature:isMonster() then
+    return false
+  elseif hideSkulls and creature:isPlayer() and creature:getSkull() == SkullNone then
+    return false
+  elseif hideParty and creature:getShield() > ShieldWhiteBlue then
+    return false
   end
-  return false
+
+  return true
 end
 
 function onCreatureHealthPercentChange(creature, health)
@@ -458,7 +452,7 @@ function addCreature(creature)
   end
 
   local localPlayer = g_game.getLocalPlayer()
-  battleButton:setVisible(localPlayer:hasSight(creature:getPosition()) and creature:canBeSeen() and doShowCreatureAtBattle(creature))
+  battleButton:setVisible(localPlayer:hasSight(creature:getPosition()) and creature:canBeSeen())
 end
 
 function removeAllCreatures()

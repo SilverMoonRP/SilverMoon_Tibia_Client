@@ -839,7 +839,7 @@ local function initInterface()
       categoryList:addOption(getMarketCategoryName(i))
     end
   end
-  categoryList:addOption(getMarketCategoryName(255)) -- meta weapons
+ -- categoryList:addOption(getMarketCategoryName(255)) -- meta weapons
   categoryList:setCurrentOption(getMarketCategoryName(MarketCategory.First))
   subCategoryList:setEnabled(false)
 

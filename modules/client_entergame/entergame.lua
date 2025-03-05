@@ -9,6 +9,7 @@ local enterGameButton
 local clientBox
 local protocolLogin
 local motdEnabled = true
+local serverIp = 'www.silvermoonrp.uk'
 
 -- private functions
 local function onError(protocol, message, errorCode)
@@ -146,6 +147,7 @@ function EnterGame.init()
   if g_app.isRunning() and not g_game.isOnline() then
     enterGame:show()
   end
+  EnterGame.setUniqueServer(serverIp, 7171, 1098)
 end
 
 function EnterGame.firstShow()

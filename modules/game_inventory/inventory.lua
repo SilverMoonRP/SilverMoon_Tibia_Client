@@ -8,7 +8,10 @@ InventorySlotStyles = {
   [InventorySlotLeg] = "LegSlot",
   [InventorySlotFeet] = "FeetSlot",
   [InventorySlotFinger] = "FingerSlot",
-  [InventorySlotAmmo] = "AmmoSlot"
+  [InventorySlotAmmo] = "AmmoSlot",
+  [InventorySlotExt2] = "OrderSlot",
+  [InventorySlotExt3] = "InfoSlot",
+  [InventorySlotPurse] = "PurseSlot"
 }
 
 inventoryWindow = nil
@@ -39,7 +42,7 @@ function init()
       g_game.use(purse)
     end
   end
-  purseButton.onClick = purseFunction
+--  purseButton.onClick = purseFunction
 
   refresh()
   inventoryWindow:setup()
@@ -69,7 +72,7 @@ end
 
 function refresh()
   local player = g_game.getLocalPlayer()
-  for i = InventorySlotFirst, InventorySlotPurse do
+  for i = InventorySlotFirst, InventorySlotLast do
     if g_game.isOnline() then
       onInventoryChange(player, i, player:getInventoryItem(i))
     else
@@ -78,7 +81,7 @@ function refresh()
     toggleAdventurerStyle(player and Bit.hasBit(player:getBlessings(), Blessings.Adventurer) or false)
   end
 
-  purseButton:setVisible(g_game.getFeature(GamePurseSlot))
+--  purseButton:setVisible(g_game.getFeature(GamePurseSlot))
 end
 
 function toggle()
@@ -97,11 +100,11 @@ end
 
 -- hooked events
 function onInventoryChange(player, slot, item, oldItem)
-  if slot > InventorySlotPurse then return end
+  if slot > InventorySlotLast then return end
 
   if slot == InventorySlotPurse then
     if g_game.getFeature(GamePurseSlot) then
-      purseButton:setEnabled(item and true or false)
+--      purseButton:setEnabled(item and true or false)
     end
     return
   end

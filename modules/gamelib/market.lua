@@ -50,7 +50,7 @@ MarketCategory = {
 }
 
 MarketCategory.First = MarketCategory.Armors
-MarketCategory.Last = MarketCategory.TibiaCoins
+MarketCategory.Last = MarketCategory.Boots
 
 MarketCategoryWeapons = {
   [MarketCategory.Ammunition] = { slots = {255} },
@@ -63,9 +63,9 @@ MarketCategoryWeapons = {
 
 MarketCategoryStrings = {
   [0] = 'All',
-  [1] = 'Armors',
-  [2] = 'Amulets',
-  [3] = 'Boots',
+  [1] = 'Pokemon Boosts',
+  [2] = 'Valuables',
+  [3] = 'Box',
   [4] = 'Containers',
   [5] = 'Decoration',
   [6] = 'Food',
@@ -86,7 +86,7 @@ MarketCategoryStrings = {
   [21] = 'Wands and Rods',
   [22] = 'Premium Scrolls',
   [23] = 'Tibia Coins',
-  [255] = 'Weapons'
+  [255] = 'Pokemons'
 }
 
 function getMarketCategoryName(id)
