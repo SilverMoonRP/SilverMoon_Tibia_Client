@@ -3,14 +3,14 @@ name: Build with vcpkg
 on:
   push:
     branches:
-      - main  # Zmienione na main
+      - main
     paths:
       - .github/workflows/**
       - src/**
       - CMakeLists.txt
   pull_request:
     branches:
-      - main  # Zmienione na main
+      - main
 
 jobs:
   job:
@@ -19,7 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        name: [windows-msvc]  # Tylko Windows  ,,j,.
+        name: [windows-msvc]  # Tylko Windows
         buildtype: [Release]  # Tylko Release
         luajit: [on]  # Tylko z LuaJIT
         include:
@@ -58,7 +58,7 @@ jobs:
           vcpkgGitCommitId: 6f7ffeb18f99796233b958aaaf14ec7bd4fb64b2
 
       - name: Build with CMake
-        uses: lukka/run-cmake@v4
+        uses: lukka/run-cmake@v3  # Użyj v3 zamiast v4
         with:
           buildDirectory: ${{ runner.workspace }}/build
           cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
@@ -66,13 +66,13 @@ jobs:
           useVcpkgToolchainFile: true
 
       - name: Upload artifact binary (exe)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: otclient-${{ matrix.name }}-${{ matrix.buildtype }}-luajit=${{ matrix.luajit }}-${{ github.sha }}
           path: ${{ runner.workspace }}/build/otclient.exe
 
       - name: Upload artifact binary (dlls)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: otclient-${{ matrix.name }}-${{ matrix.buildtype }}-luajit=${{ matrix.luajit }}-${{ github.sha }}
           path: ${{ runner.workspace }}/build/*.dll
