@@ -56,4 +56,32 @@ jobs:
 
       - name: Install dependencies
         run: |
-          vcpkg install boost-iostreams
+          vcpkg install boost-iostreams boost-asio boost-system boost-variant boost-lockfree boost-filesystem boost-uuid glew luajit libogg libvorbis openal-soft opengl openssl physfs zlib
+
+      - name: Create vc14 directory
+        run: |
+          mkdir -p vc14
+          cp CMakeLists.txt vc14/  # Skopiuj plik CMakeLists.txt do vc14
+
+      - name: Build with CMake
+        run: |
+          mkdir -p ${{ runner.workspace }}/build
+          cd ${{ runner.workspace }}/build
+          cmake -G Ninja -DCMAKE_BUILD_TYPE="${{ matrix.buildtype }}" -DLUAJIT="${{ matrix.luajit }}" ../vc14
+          cmake --build . --config ${{ matrix.buildtype }}
+
+      - name: List directory structure
+        run: |
+          ls -R ${{ runner.workspace }}/build
+
+      - name: Upload artifact binary (exe)
+        uses: actions/upload-artifact@v3
+        with:
+          name: otclient-${{ matrix.name }}-${{ matrix.buildtype }}-luajit=${{ matrix.luajit }}-${{ github.sha }}
+          path: ${{ runner.workspace }}/build/Release/otclient.exe
+
+      - name: Upload artifact binary (dlls)
+        uses: actions/upload-artifact@v3
+        with:
+          name: otclient-${{ matrix.name }}-${{ matrix.buildtype }}-luajit=${{ matrix.luajit }}-${{ github.sha }}
+          path: ${{ runner.workspace }}/build/Release/*.dll
